@@ -6,7 +6,11 @@ import random
 
 def home(request):
     # return HttpResponse('Hello there friend!!!')
-    return render(request, 'generator/home.html', {'password': 'asdfasd223asdfas'})
+    return render(request, 'generator/home.html')
+
+def about(request):
+    return render(request, 'generator/about.html')
+
 
 def password(request):
     
@@ -14,7 +18,16 @@ def password(request):
 
     characters = list('abcdefghijklmnopqrstuvwxyz')
 
-    length = 10
+    if request.GET.get('uppercase'):
+        characters.extend(list('ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
+
+    if request.GET.get('specials'):
+        characters.extend(list('!@#$%^&*()'))
+
+    if request.GET.get('numbers'):
+        characters.extend(list('01234567890'))
+
+    length = int(request.GET.get('length', 12))
 
     for x in range(length):
         thepassword += random.choice(characters)
